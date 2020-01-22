@@ -4,4 +4,4 @@ services:
 before_install:
     - docker build -t sureka28/complex -f ./client/Dockerfile.dev ./client
 script:
-    - docker run - CI=true sureka28/complex  npm run test -- --coverage
+    - docker run -e CI=true sureka28/complex  npm run test -- --coverage
