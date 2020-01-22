@@ -5,3 +5,13 @@ before_install:
     - docker build -t sureka28/complex -f ./client/Dockerfile.dev ./client
 script:
     - docker run -e CI=true sureka28/complex  npm run test -- --coverage
+after_success:
+    - docker build -t sureka28/multi-client ./client
+    - docker build -t sureka28/multi-nginx ./nginx
+    - docker build -t sureka28/multi-server ./server
+    - docker build -t sureka28/multi-worker ./worker 
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push sureka28/multi-client
+    - docker push sureka28/multi-nginx
+    - docker push sureka28/multi-server
+    - docker push sureka28/multi-worker
